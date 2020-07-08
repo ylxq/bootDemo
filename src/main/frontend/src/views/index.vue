@@ -29,7 +29,7 @@
     }
 </style>
 <template>
-    <div class="layout">
+    <Row class="layout">
         <Layout>
             <Header>
                 <Menu mode="horizontal" theme="dark" active-name="1">
@@ -43,34 +43,12 @@
                 </Menu>
             </Header>
             <Content :style="{padding: '0 50px'}">
-                <Card :style="{margin: '50px 0'}" style="min-height: 600px;">
-                    <p slot="title">
-                        <Icon type="ios-film-outline"></Icon>
-                        Classic film
-                    </p>
-                    <a href="#" slot="extra" @click.prevent="addClazz">
-                        <Icon type="ios-loop-strong"></Icon>
-                        Change
-                    </a>
-                    <div>
-                        Content
-                    </div>
-
-                </Card>
+                <router-view></router-view>
             </Content>
-            <Footer class="layout-footer-center">2020-2016 &copy; TalkingData</Footer>
-        </Layout>
-    </div>
-</template>
-<script>
-    export default {
-        data() {
-            return {}
-        },
-        methods: {
-            addClazz() {
+            <Footer class="layout-footer-center">2020-2100 &copy; TalkingData</Footer>
 
-            }
-        }
-    }
-</script>
+        </Layout>
+
+    </Row>
+</template>
+

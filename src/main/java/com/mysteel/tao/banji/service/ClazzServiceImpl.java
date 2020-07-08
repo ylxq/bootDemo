@@ -20,25 +20,23 @@ import java.util.Optional;
 public class ClazzServiceImpl implements ClazzService {
     @Override
     public Clazz save(Clazz clazz, String teacherId) {
-        if (StringUtils.isNotEmpty(clazz.getId())) {
-            repository
-                    .findById(clazz.getId())
-                    .ifPresent(t -> {
-                                teacherRepository.findById(teacherId).ifPresent(
-                                        teacher -> {
-                                            if (teacher.getClazz() == null) {
-                                                teacher.setClazz(new HashSet<>());
-                                            }
-                                            teacher.getClazz().add(teacherId);
-                                            teacherRepository.save(teacher);
+        Clazz newClazz = repository.save(clazz);
+        repository.findById(clazz.getId())
+                .ifPresent(t -> {
+                            teacherRepository.findById(teacherId).ifPresent(
+                                    teacher -> {
+                                        if (teacher.getClazz() == null) {
+                                            teacher.setClazz(new HashSet<>());
                                         }
-                                );
-                                clazz.setStudents(t.getStudents());
-                                clazz.setTest(t.getTest());
-                            }
-                    );
-        }
-        return repository.save(clazz);
+                                        teacher.getClazz().add(clazz.getId());
+                                        teacherRepository.save(teacher);
+                                    }
+                            );
+                            newClazz.setStudents(t.getStudents());
+                            newClazz.setTest(t.getTest());
+                        }
+                );
+        return newClazz;
     }
 
 

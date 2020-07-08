@@ -13,7 +13,7 @@ Vue.use(ViewUI);
 
 // 路由配置
 const RouterConfig = {
-    mode: 'history',
+    // mode: 'history',
     routes: Routers
 };
 const router = new VueRouter(RouterConfig);
@@ -22,9 +22,11 @@ router.beforeEach((to, from, next) => {
     ViewUI.LoadingBar.start();
     if (to.path !== '/login' && !store.getters.userInfo) {
         router.push({path: '/login'}).then(r => next());
-    } else if(to.path === '/login' && store.getters.userInfo){
-        router.push({path: '/'}).then(r => next());
-    }else {
+    } else if (to.path === '/login' && store.getters.userInfo) {
+        router.push({path: '/clazz'}).then(r => next());
+    } else if (to.path === '/') {
+        router.push({path: '/clazz'}).then(r => next());
+    } else {
         next();
     }
 });
