@@ -8,6 +8,7 @@ import com.mysteel.tao.test.dao.TestRepository;
 import com.mysteel.tao.test.dto.TestDTO;
 import com.mysteel.tao.test.dto.TestDetailDTO;
 import com.mysteel.tao.test.eneity.Test;
+import com.mysteel.tao.utils.ScoreCountUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -68,22 +69,11 @@ public class TestServiceImpl implements TestService {
                 .flatMap(clazz -> Optional.ofNullable(clazz.getTest()))
                 .ifPresent(set -> set.forEach(testId -> {
                     List<Score> scores = scoreRepository.findScoreByTestId(testId);
-                    List<Double> scoreList = scores.stream().map(Score::getScore).collect(Collectors.toList());
-                    Double maxScore = scoreList.stream().max(Double::compareTo).orElse(0D);
-                    Double minScore = scoreList.stream().min(Double::compareTo).orElse(0D);
-                    Double avgScore = scores.stream().mapToDouble(Score::getScore).average().orElse(0D);
-                    Double sum = scores.stream().mapToDouble(Score::getScore).sum();
-
-
-                    TestDTO testDTO = new TestDTO();
-                    testDTO.setAvgScore(avgScore);
-                    testDTO.setMaxScore(maxScore);
-                    testDTO.setMinScore(minScore);
-                    testDTO.setSumScore(sum);
-                    tests.add(testDTO);
+                    tests.add(ScoreCountUtils.getTestDTO(scores));
                 }));
         return tests;
     }
+
 
     @Override
     public List<Score> findListByStudentId(String studentId) {
