@@ -1,5 +1,29 @@
 <template>
     <Card style="margin-top: 20px">
+        <Col span="6">
+            <Card  style="width:280px">
+                <div style="text-align:center">
+                    <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
+                    <h3>A high quality UI Toolkit based on Vue.js</h3>
+                </div>
+            </Card>
+        </Col>
+        <Col span="6" offset="2">
+            <Card  style="width:280px">
+                <div style="text-align:center">
+                    <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
+                    <h3>A high quality UI Toolkit based on Vue.js</h3>
+                </div>
+            </Card>
+        </Col>
+        <Col span="6" offset="2">
+            <Card  style="width:280px">
+                <div style="text-align:center">
+                    <img src="https://file.iviewui.com/dist/2ecd3b0452aa197097d5131afacab7b8.png">
+                    <h3>A high quality UI Toolkit based on Vue.js</h3>
+                </div>
+            </Card>
+        </Col>
         <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
     </Card>
 </template>
