@@ -20,8 +20,8 @@ public class StudentController {
 
 
     @PostMapping("/")
-    public Student saveStudent(@RequestBody Student t) {
-        return studentService.save(t);
+    public Student saveStudent(@RequestBody Student t,String clazzId) {
+        return studentService.save(t,clazzId);
     }
 
     @DeleteMapping("/{id}")
@@ -42,8 +42,8 @@ public class StudentController {
 
 
     @PostMapping("/upload")
-    public void upload(@RequestParam("file") MultipartFile file) throws IOException {
-        studentService.batchSaveByExcel(file);
+    public void upload(@RequestParam("file") MultipartFile file,String clazzId) throws IOException {
+        studentService.batchSaveByExcel(file,clazzId);
     }
 
     @GetMapping("/download")

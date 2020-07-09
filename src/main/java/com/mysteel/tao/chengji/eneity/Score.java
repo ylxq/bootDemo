@@ -2,6 +2,7 @@ package com.mysteel.tao.chengji.eneity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 /**
  * @author GLNC-taowenchen
@@ -12,8 +13,10 @@ public class Score {
     @Id
     private String id;
     private Double score;
+    @Indexed
     private String testId;
     private String testName;
+    @Indexed
     private String studentId;
     private String studentName;
     private int rank;

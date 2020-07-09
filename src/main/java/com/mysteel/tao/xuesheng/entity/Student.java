@@ -11,18 +11,19 @@ import java.util.List;
  */
 @RedisHash("student")
 public class Student {
-    @ExcelIgnore
+    @ExcelProperty("学生唯一标志")
     private String id;
+    @ExcelProperty("学号")
+    private int xueHao;
     @ExcelProperty("名字")
     private String name;
-    @ExcelProperty("性别")
+    @ExcelIgnore
     private int sex;
     @ExcelProperty("身份证")
     private String cardCode;
     @ExcelProperty("地址")
     private String address;
-    @ExcelProperty("学号")
-    private int xueHao;
+
 
     public int getXueHao() {
         return xueHao;

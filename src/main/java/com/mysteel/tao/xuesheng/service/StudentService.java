@@ -15,7 +15,7 @@ public interface StudentService {
      * @param student
      * @return
      */
-    Student save(Student student);
+    Student save(Student student,String clazz);
 
     /**
      * @param id
@@ -35,5 +35,5 @@ public interface StudentService {
      */
     List<Student> findByClazzId(String clazzId);
 
-    void batchSaveByExcel(MultipartFile file) throws IOException;
+    void batchSaveByExcel(MultipartFile file,String clazzId) throws IOException;
 }

@@ -1,5 +1,6 @@
 package com.mysteel.tao.banji.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.util.Set;
@@ -9,6 +10,8 @@ import java.util.Set;
  */
 @RedisHash("clazz")
 public class Clazz {
+
+    @Id
     private String id;
     private String name;
     private Set<String> students;

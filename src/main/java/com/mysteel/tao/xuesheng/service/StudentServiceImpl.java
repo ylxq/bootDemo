@@ -19,8 +19,19 @@ import java.util.*;
 @Service
 public class StudentServiceImpl implements StudentService {
     @Override
-    public Student save(Student student) {
-        return repository.save(student);
+    public Student save(Student student, String clazzId) {
+        student.setSex(Integer.valueOf(student.getCardCode().substring(16, 17)) % 2 == 0 ? 0 : 1);
+        Student newStudent = repository.save(student);
+        clazzRepository.findById(clazzId).ifPresent(clazz -> {
+            Set<String> students = clazz.getStudents();
+            if (students == null) {
+                students = new HashSet<>();
+            }
+            students.add(newStudent.getId());
+            clazz.setStudents(students);
+            clazzRepository.save(clazz);
+        });
+        return newStudent;
     }
 
 
@@ -48,11 +59,11 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public void batchSaveByExcel(MultipartFile file) throws IOException {
+    public void batchSaveByExcel(MultipartFile file, String clazzId) throws IOException {
         EasyExcel.read(file.getInputStream(), Student.class, new AnalysisEventListener<Student>() {
             @Override
             public void invoke(Student data, AnalysisContext analysisContext) {
-                save(data);
+                save(data, clazzId);
             }
 
             @Override

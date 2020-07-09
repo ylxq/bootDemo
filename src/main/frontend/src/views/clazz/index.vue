@@ -21,10 +21,10 @@
                 <Card style="min-height: 160px">
                     <p @click="editClazz(item)" slot="title">{{item.name}}</p>
                     <CellGroup>
-                        <Cell title="With Badge" :to="'/student/'+item.id">
+                        <Cell title="学生详情" :to="'/student/'+item.id">
                             <Badge :count="item.students?item.students.length:0" slot="extra" type="primary"/>
                         </Cell>
-                        <Cell title="With Badge" to="/test">
+                        <Cell title="考试详情" to="/test">
                             <Badge :count="item.test?item.test.length:0" slot="extra" type="primary"/>
                         </Cell>
                     </CellGroup>
@@ -42,14 +42,14 @@
         <Modal :loading="loading"
                :mask-closable="false"
                v-model="showAddClazzModal"
-               title="Common Modal dialog box title"
+               :title="formValidate.name?formValidate.name:'新增班级'"
                @on-ok="handleSubmit('formValidate')">
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
                 <FormItem label="Name" prop="name">
                     <Input v-model="formValidate.name" placeholder="Enter your name"></Input>
                 </FormItem>
                 <FormItem hidden label="id" prop="id">
-                    <Input  v-model="formValidate.id" placeholder="Enter your name"></Input>
+                    <Input v-model="formValidate.id" placeholder="Enter your name"></Input>
                 </FormItem>
             </Form>
         </Modal>
@@ -63,7 +63,7 @@
                 showAddClazzModal: false,
                 loading: true,
                 formValidate: {
-                    id: '',
+                    id: null,
                     name: ''
                 },
                 ruleValidate: {
@@ -76,6 +76,10 @@
         },
         methods: {
             addClazz() {
+                this.formValidate = {
+                    id: null,
+                    name: null
+                };
                 this.showAddClazzModal = true;
             },
             editClazz(item) {
