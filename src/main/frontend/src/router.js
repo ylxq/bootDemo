@@ -27,14 +27,14 @@ const routers = [
                 component: () => import(/* webpackChunkName: "UserManager" */ './views/student/index.vue')
             },
             {
-                path: '/analysis/student/:studentId',
+                path: '/analysis/:analysisType/:studentId',
                 name: '数据分析',
                 meta: {
                     id: "2",
                     role: 1,
                     group: '系统管理'
                 },
-                component: () => import(/* webpackChunkName: "UserManager" */ './views/student/analysis.vue')
+                component: () => import(/* webpackChunkName: "UserManager" */ './views/analysis/analysis.vue')
             }
         ]
     },
