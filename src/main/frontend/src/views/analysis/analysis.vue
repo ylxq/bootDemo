@@ -35,7 +35,7 @@
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="chartPie" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="chartPie" class="line-size"></div>
                 </card>
             </Col>
         </Row>
@@ -43,7 +43,7 @@
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="chartLine" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="chartLine" class="line-size"></div>
                 </card>
             </Col>
         </Row>
@@ -62,7 +62,7 @@
                 maxScore: 0,
                 minScore: 0,
                 avgScore: 0,
-
+                screenWidth: document.body.clientWidth
             }
         },
         computed: {
@@ -76,6 +76,13 @@
         },
         mounted() {
             this.requestData();
+            const that = this;
+            window.onresize = () => {
+                return (() => {
+                    window.screenWidth = document.body.clientWidth;
+                    that.screenWidth = window.screenWidth;
+                })()
+            }
         },
         methods: {
             drawLine() {
@@ -162,6 +169,20 @@
                 });
             }
         },
+        watch: {
+            screenWidth(val) {
+                if (!this.timer) {
+                    this.screenWidth = val;
+                    this.timer = true;
+                    let that = this;
+                    setTimeout(function () {
+                        // 打印screenWidth变化的值
+                        location.reload();
+                        that.timer = false
+                    }, 400)
+                }
+            }
+        }
 
     }
 </script>
@@ -176,5 +197,34 @@
     .scoreName {
         font-size: 25px;
         font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    }
+
+    @media (min-width: 1600px) {
+        .line-size {
+            width: 1500px;
+            height: 400px;
+        }
+    }
+
+    @media (max-width: 1600px) and ( min-width: 1400px) {
+        .line-size {
+            width: 1300px;
+            height: 400px;
+        }
+    }
+
+    @media (max-width: 1400px) and ( min-width: 1100px)  {
+        .line-size {
+            width: 1200px;
+            height: 400px;
+        }
+    }
+
+
+    @media (max-width: 1100px) {
+        .line-size {
+            width: 900px;
+            height: 400px;
+        }
     }
 </style>
