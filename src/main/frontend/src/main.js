@@ -6,7 +6,11 @@ import App from './app.vue';
 import 'view-design/dist/styles/iview.css';
 import request from './request'
 import store from './store/index'
+// 引入echarts
+import echarts from 'echarts'
 
+
+Vue.prototype.$echarts = echarts
 Vue.prototype.$request = request;
 Vue.use(VueRouter);
 Vue.use(ViewUI);

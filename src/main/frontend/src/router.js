@@ -10,7 +10,7 @@ const routers = [
                 path: '/clazz',
                 name: '班级管理',
                 meta: {
-                    id: "1",
+                    id: "2",
                     role: 1,
                     group: '系统管理'
                 },
@@ -20,11 +20,31 @@ const routers = [
                 path: '/student/:id',
                 name: '学生管理',
                 meta: {
-                    id: "1",
+                    id: "2",
                     role: 1,
                     group: '系统管理'
                 },
                 component: () => import(/* webpackChunkName: "UserManager" */ './views/student/index.vue')
+            },
+            {
+                path: '/analysis/:analysisType/:studentId',
+                name: '数据分析',
+                meta: {
+                    id: "2",
+                    role: 1,
+                    group: '系统管理'
+                },
+                component: () => import(/* webpackChunkName: "UserManager" */ './views/analysis/analysis.vue')
+            },
+            {
+                path: '/analysis/all/test/:clazzId',
+                name: '数据分析',
+                meta: {
+                    id: "2",
+                    role: 1,
+                    group: '系统管理'
+                },
+                component: () => import(/* webpackChunkName: "UserManager" */ './views/analysis/allTestAnalysis.vue')
             }
         ]
     },
