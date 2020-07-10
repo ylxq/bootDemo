@@ -148,7 +148,7 @@
             },
             requestData() {
                 const _this = this;
-                this.$request.get(`/analysis/${this.$route.params.analysisType}/${this.$route.params.studentId}`)
+                this.$request.get(`/analysis/test/?clazzId=${this.$route.params.studentId}`)
                     .then(value => {
                         _this.pieData = value.data.pies;
                         _this.lineData = value.data.line;

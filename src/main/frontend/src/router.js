@@ -35,6 +35,16 @@ const routers = [
                     group: '系统管理'
                 },
                 component: () => import(/* webpackChunkName: "UserManager" */ './views/analysis/analysis.vue')
+            },
+            {
+                path: '/analysis/all/test/:clazzId',
+                name: '数据分析',
+                meta: {
+                    id: "2",
+                    role: 1,
+                    group: '系统管理'
+                },
+                component: () => import(/* webpackChunkName: "UserManager" */ './views/analysis/allTestAnalysis.vue')
             }
         ]
     },
