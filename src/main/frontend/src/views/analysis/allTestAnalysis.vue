@@ -1,5 +1,5 @@
 <template>
-    <card style="margin-top: 20px;height: 5000px">
+    <card style="margin-top: 20px;height: 5000px;text-align: center">
         <p slot="title">
             <Icon type="ios-home"/>
             test
@@ -7,63 +7,63 @@
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="avg" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="avg" class="line-size"></div>
                 </card>
             </Col>
         </Row>
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="max" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="max" class="line-size"></div>
                 </card>
             </Col>
         </Row>
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="min" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="min" class="line-size"></div>
                 </card>
             </Col>
         </Row>
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="ten" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="ten" class="line-size"></div>
                 </card>
             </Col>
         </Row>
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="ninety" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="ninety" class="line-size"></div>
                 </card>
             </Col>
         </Row>
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="eighty" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="eighty" class="line-size"></div>
                 </card>
             </Col>
         </Row>
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="seventy" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="seventy" class="line-size"></div>
                 </card>
             </Col>
         </Row>
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="sixty" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="sixty" class="line-size"></div>
                 </card>
             </Col>
         </Row>
         <Row style="margin-top: 20px">
             <Col>
                 <card>
-                    <div id="fifty" :style="{width: '900px', height: '400px'}"></div>
+                    <div id="fifty" class="line-size"></div>
                 </card>
             </Col>
         </Row>
@@ -85,11 +85,19 @@
                     seventy: "haha7",
                     sixty: "haha8",
                     fifty: "haha9",
-                }
+                },
+                screenWidth: document.body.clientWidth
             }
         },
         mounted() {
             this.requestData();
+            const that = this;
+            window.onresize = () => {
+                return (() => {
+                    window.screenWidth = document.body.clientWidth;
+                    that.screenWidth = window.screenWidth;
+                })()
+            }
         },
         methods: {
             drawLine(name) {
@@ -137,6 +145,52 @@
                 });
             }
         },
-
+        watch: {
+            screenWidth(val) {
+                if (!this.timer) {
+                    this.screenWidth = val;
+                    this.timer = true;
+                    let that = this;
+                    setTimeout(function () {
+                        // 打印screenWidth变化的值
+                        location.reload();
+                        that.timer = false
+                    }, 400)
+                }
+            }
+        }
     }
 </script>
+
+<style>
+
+
+    @media (min-width: 1600px) {
+        .line-size {
+            width: 1500px;
+            height: 400px;
+        }
+    }
+
+    @media (max-width: 1600px) and ( min-width: 1400px) {
+        .line-size {
+            width: 1300px;
+            height: 400px;
+        }
+    }
+
+    @media (max-width: 1400px) and ( min-width: 1100px)  {
+        .line-size {
+            width: 1200px;
+            height: 400px;
+        }
+    }
+
+
+    @media (max-width: 1100px) {
+        .line-size {
+            width: 900px;
+            height: 400px;
+        }
+    }
+</style>
