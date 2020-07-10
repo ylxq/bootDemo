@@ -4,30 +4,30 @@ package com.mysteel.tao.analysis.dto;
  * @author GLNC-taowenchen
  */
 public class PieAnalysisScoreDTO {
-    private String key;
-    private Integer count;
+    private String name;
+    private Integer value;
 
-    public String getKey() {
-        return key;
+    public String getName() {
+        return name;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getValue() {
+        return value;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
     @Override
     public String toString() {
         return "PieAnalysisStudentDTO{" +
-                "key='" + key + '\'' +
-                ", count=" + count +
+                "key='" + name + '\'' +
+                ", count=" + value +
                 '}';
     }
 }
