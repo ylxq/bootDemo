@@ -51,8 +51,8 @@ public class ScoreCountUtils {
         for (Map.Entry<ScoreCountEnum, List<Score>> entry : map.entrySet()) {
             if (entry.getValue() != null && !entry.getValue().isEmpty()) {
                 PieAnalysisScoreDTO pie = new PieAnalysisScoreDTO();
-                pie.setKey(entry.getKey().getName());
-                pie.setCount(entry.getValue().size());
+                pie.setName(entry.getKey().getName());
+                pie.setValue(entry.getValue().size());
                 list.add(pie);
             }
         }

@@ -27,7 +27,7 @@ const routers = [
                 component: () => import(/* webpackChunkName: "UserManager" */ './views/student/index.vue')
             },
             {
-                path: '/analysis/student',
+                path: '/analysis/student/:studentId',
                 name: '数据分析',
                 meta: {
                     id: "2",

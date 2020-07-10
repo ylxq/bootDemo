@@ -13,10 +13,7 @@ import com.mysteel.tao.test.dto.TestDTO;
 import com.mysteel.tao.utils.ScoreCountUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author GLNC-taowenchen
@@ -69,7 +66,7 @@ public class AnalysisServiceImpl implements AnalysisService {
             setAnalysisData(analysisTestScoreDTO.getMin(), testAnalysis, analysisScoreDTO.getMinScore());
             setAnalysisData(analysisTestScoreDTO.getAvg(), testAnalysis, analysisScoreDTO.getAvgScore());
             analysisScoreDTO.getPies().forEach(analysisScorePie -> {
-                setAnalysisData(analysisTestScoreDTO.getObjectByKey(analysisScorePie.getKey()), testAnalysis, Double.valueOf(analysisScorePie.getCount()));
+                setAnalysisData(analysisTestScoreDTO.getObjectByKey(analysisScorePie.getName()), testAnalysis, Double.valueOf(analysisScorePie.getValue()));
             });
         });
 
