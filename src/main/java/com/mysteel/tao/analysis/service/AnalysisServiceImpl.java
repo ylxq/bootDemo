@@ -44,17 +44,15 @@ public class AnalysisServiceImpl implements AnalysisService {
         List<AllTestAnalysisScoreDTO> list = new ArrayList<>();
         clazzRepository.findById(clazzId).ifPresent(clazz -> {
             Set<String> set = clazz.getTest();
-            Optional.ofNullable(set).ifPresent(sets -> {
-                sets.forEach(value -> {
-                    AllTestAnalysisScoreDTO all = new AllTestAnalysisScoreDTO();
-                    AnalysisScoreDTO analysisScoreDTO = analysisTest(value);
-                    if (analysisScoreDTO != null) {
-                        all.setAnalysisScoreDTO(analysisScoreDTO);
-                        all.setTestName(clazzRepository.findById(value).get().getName());
-                        list.add(all);
-                    }
-                });
-            });
+            Optional.ofNullable(set).ifPresent(sets -> sets.forEach(value -> {
+                AllTestAnalysisScoreDTO all = new AllTestAnalysisScoreDTO();
+                AnalysisScoreDTO analysisScoreDTO = analysisTest(value);
+                if (analysisScoreDTO != null) {
+                    all.setAnalysisScoreDTO(analysisScoreDTO);
+                    all.setTestName(clazzRepository.findById(value).get().getName());
+                    list.add(all);
+                }
+            }));
         });
 
 
