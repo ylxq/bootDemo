@@ -63,9 +63,8 @@ public class AnalysisServiceImpl implements AnalysisService {
             setAnalysisData(analysisTestScoreDTO.getMax(), testAnalysis, analysisScoreDTO.getMaxScore());
             setAnalysisData(analysisTestScoreDTO.getMin(), testAnalysis, analysisScoreDTO.getMinScore());
             setAnalysisData(analysisTestScoreDTO.getAvg(), testAnalysis, analysisScoreDTO.getAvgScore());
-            analysisScoreDTO.getPies().forEach(analysisScorePie -> {
-                setAnalysisData(analysisTestScoreDTO.getObjectByKey(analysisScorePie.getName()), testAnalysis, Double.valueOf(analysisScorePie.getValue()));
-            });
+            analysisScoreDTO.getPies()
+                    .forEach(analysisScorePie -> setAnalysisData(analysisTestScoreDTO.getObjectByKey(analysisScorePie.getName()), testAnalysis, Double.valueOf(analysisScorePie.getValue())));
         });
 
         return analysisTestScoreDTO;
