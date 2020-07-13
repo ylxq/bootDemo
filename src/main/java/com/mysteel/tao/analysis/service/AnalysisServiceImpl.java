@@ -44,17 +44,15 @@ public class AnalysisServiceImpl implements AnalysisService {
         List<AllTestAnalysisScoreDTO> list = new ArrayList<>();
         clazzRepository.findById(clazzId).ifPresent(clazz -> {
             Set<String> set = clazz.getTest();
-            Optional.ofNullable(set).ifPresent(sets -> {
-                sets.forEach(value -> {
-                    AllTestAnalysisScoreDTO all = new AllTestAnalysisScoreDTO();
-                    AnalysisScoreDTO analysisScoreDTO = analysisTest(value);
-                    if (analysisScoreDTO != null) {
-                        all.setAnalysisScoreDTO(analysisScoreDTO);
-                        all.setTestName(clazzRepository.findById(value).get().getName());
-                        list.add(all);
-                    }
-                });
-            });
+            Optional.ofNullable(set).ifPresent(sets -> sets.forEach(value -> {
+                AllTestAnalysisScoreDTO all = new AllTestAnalysisScoreDTO();
+                AnalysisScoreDTO analysisScoreDTO = analysisTest(value);
+                if (analysisScoreDTO != null) {
+                    all.setAnalysisScoreDTO(analysisScoreDTO);
+                    all.setTestName(clazzRepository.findById(value).get().getName());
+                    list.add(all);
+                }
+            }));
         });
 
 
@@ -65,9 +63,8 @@ public class AnalysisServiceImpl implements AnalysisService {
             setAnalysisData(analysisTestScoreDTO.getMax(), testAnalysis, analysisScoreDTO.getMaxScore());
             setAnalysisData(analysisTestScoreDTO.getMin(), testAnalysis, analysisScoreDTO.getMinScore());
             setAnalysisData(analysisTestScoreDTO.getAvg(), testAnalysis, analysisScoreDTO.getAvgScore());
-            analysisScoreDTO.getPies().forEach(analysisScorePie -> {
-                setAnalysisData(analysisTestScoreDTO.getObjectByKey(analysisScorePie.getName()), testAnalysis, Double.valueOf(analysisScorePie.getValue()));
-            });
+            analysisScoreDTO.getPies()
+                    .forEach(analysisScorePie -> setAnalysisData(analysisTestScoreDTO.getObjectByKey(analysisScorePie.getName()), testAnalysis, Double.valueOf(analysisScorePie.getValue())));
         });
 
         return analysisTestScoreDTO;
