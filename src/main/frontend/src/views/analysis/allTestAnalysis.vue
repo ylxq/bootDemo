@@ -76,15 +76,15 @@
             return {
                 lineData: {},
                 lineName: {
-                    avg: "haha1",
-                    max: "haha2",
-                    min: "haha3",
-                    ten: "haha4",
-                    ninety: "haha5",
-                    eighty: "haha6",
-                    seventy: "haha7",
-                    sixty: "haha8",
-                    fifty: "haha9",
+                    avg: "平均分",
+                    max: "最高分",
+                    min: "最低分",
+                    ten: "100分个数变化",
+                    ninety: "90-100个数变化",
+                    eighty: "80-90个数变化",
+                    seventy: "70-80个数变化",
+                    sixty: "60-70个数变化",
+                    fifty: "不及格个数变化",
                 },
                 screenWidth: document.body.clientWidth
             }

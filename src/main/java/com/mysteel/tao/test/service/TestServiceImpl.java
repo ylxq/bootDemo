@@ -1,6 +1,5 @@
 package com.mysteel.tao.test.service;
 
-import com.google.common.collect.Lists;
 import com.mysteel.tao.banji.dao.ClazzRepository;
 import com.mysteel.tao.chengji.dao.ScoreRepository;
 import com.mysteel.tao.chengji.eneity.Score;
@@ -9,6 +8,7 @@ import com.mysteel.tao.test.dto.TestDTO;
 import com.mysteel.tao.test.dto.TestDetailDTO;
 import com.mysteel.tao.test.eneity.Test;
 import com.mysteel.tao.utils.ScoreCountUtils;
+import com.mysteel.tao.xuesheng.dao.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -68,8 +68,12 @@ public class TestServiceImpl implements TestService {
         clazzRepository.findById(clazzId)
                 .flatMap(clazz -> Optional.ofNullable(clazz.getTest()))
                 .ifPresent(set -> set.forEach(testId -> {
+                    Test test = repository.findById(testId).get();
                     List<Score> scores = scoreRepository.findScoreByTestId(testId);
-                    tests.add(ScoreCountUtils.getTestDTO(scores));
+                    TestDTO testDTO = ScoreCountUtils.getTestDTO(scores);
+                    testDTO.setId(testId);
+                    testDTO.setName(test.getName());
+                    tests.add(testDTO);
                 }));
         return tests;
     }
@@ -88,15 +92,15 @@ public class TestServiceImpl implements TestService {
         return scores;
     }
 
-
     private final TestRepository repository;
     private final ClazzRepository clazzRepository;
     private final ScoreRepository scoreRepository;
+    private final StudentRepository studentRepository;
 
-    public TestServiceImpl(TestRepository repository, ClazzRepository clazzRepository, ScoreRepository scoreRepository) {
+    public TestServiceImpl(TestRepository repository, ClazzRepository clazzRepository, ScoreRepository scoreRepository, StudentRepository studentRepository) {
         this.repository = repository;
         this.clazzRepository = clazzRepository;
         this.scoreRepository = scoreRepository;
+        this.studentRepository = studentRepository;
     }
-
 }

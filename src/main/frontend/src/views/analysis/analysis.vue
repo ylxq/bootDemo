@@ -2,14 +2,14 @@
     <card style="margin-top: 20px;height: 2000px">
         <p slot="title">
             <Icon type="ios-home"/>
-            {{this.$route.params.analysisType==='test'?'测试':'sss'}}
+            {{this.$route.params.analysisType==='test'?'本次考试分析':'学生成绩分析'}}
         </p>
         <Row>
             <Col span="6">
                 <Card style="width:290px">
                     <div style="text-align:center">
                         <p class="score">{{maxScore}}</p>
-                        <P class="scoreName">max</P>
+                        <P class="scoreName">最高分</P>
                     </div>
                 </Card>
             </Col>
@@ -18,7 +18,7 @@
                 <Card style="width:290px">
                     <div style="text-align:center">
                         <p class="score">{{minScore}}</p>
-                        <P class="scoreName">max</P>
+                        <P class="scoreName">最低分</P>
                     </div>
                 </Card>
             </Col>
@@ -27,7 +27,7 @@
                 <Card style="width:290px">
                     <div style="text-align:center">
                         <p class="score">{{avgScore}}</p>
-                        <P class="scoreName">max</P>
+                        <P class="scoreName">平均分</P>
                     </div>
                 </Card>
             </Col>
@@ -40,7 +40,7 @@
             </Col>
         </Row>
 
-        <Row style="margin-top: 20px">
+        <Row v-show="this.$route.params.analysisType!=='test'" style="margin-top: 20px">
             <Col>
                 <card>
                     <div id="chartLine" class="line-size"></div>
@@ -92,7 +92,7 @@
                 // 绘制图表
                 myChart.setOption({
                     title: {
-                        text: '在Vue中使用echarts',
+                        text: '考试成绩',
                         left: 'center'
                     },
                     tooltip: {},
@@ -124,8 +124,8 @@
                 // 绘制图表
                 myChart.setOption({
                     title: {
-                        text: '天气情况统计',
-                        subtext: '虚构数据',
+                        text: '分数区间占比',
+                        subtext: '',
                         left: 'center'
                     },
                     tooltip: {
@@ -155,7 +155,7 @@
             },
             requestData() {
                 const _this = this;
-                this.$request.get(`/analysis/test/?clazzId=${this.$route.params.studentId}`)
+                this.$request.get(`/analysis/${this.$route.params.analysisType}/${this.$route.params.studentId}`)
                     .then(value => {
                         _this.pieData = value.data.pies;
                         _this.lineData = value.data.line;

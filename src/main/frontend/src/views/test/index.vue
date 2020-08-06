@@ -1,44 +1,16 @@
 <template>
     <div style="margin-top: 30px">
-        <Button @click="addStudent" type="primary">新增</Button>
-        <Button @click="downloadStudent" style="margin-left: 10px" type="primary">导出excel模板</Button>
-        <Button ghost type="text">
-            <Upload :on-success="loadData" :action="'//192.168.1.4:8080/student/upload?clazzId='+this.$route.params.id">
-                <Button icon="ios-cloud-upload-outline">批量excel导入</Button>
-            </Upload>
-        </Button>
-
+        <Button @click="addTest" type="primary">新增</Button>
+        <Button @click="analysisAll" type="primary">分析</Button>
         <Table style="margin-top: 10px" border :columns="columns" :data="data"></Table>
-
         <Modal :loading="loading"
                :mask-closable="false"
                v-model="showAddClazzModal"
-               :title="formValidate.name?formValidate.name:'新增学生'"
+               :title="formValidate.name?formValidate.name:'新增考试'"
                @on-ok="handleSubmit('formValidate')">
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-                <FormItem label="学号" prop="xueHao">
-                    <Input v-model="formValidate.xueHao" placeholder=""></Input>
-                </FormItem>
-                <FormItem label="名字" prop="name">
+                <FormItem label="考试名称" prop="name">
                     <Input v-model="formValidate.name" placeholder=""></Input>
-                </FormItem>
-                <FormItem label="性别" prop="sex">
-                    <RadioGroup v-model="formValidate.sex">
-                        <Radio label="0">
-                            <Icon type="logo-apple"></Icon>
-                            <span>男</span>
-                        </Radio>
-                        <Radio label="1">
-                            <Icon type="logo-android"></Icon>
-                            <span>女</span>
-                        </Radio>
-                    </RadioGroup>
-                </FormItem>
-                <FormItem label="身份证" prop="cardCode">
-                    <Input v-model="formValidate.cardCode" placeholder=""></Input>
-                </FormItem>
-                <FormItem label="住址" prop="address">
-                    <Input v-model="formValidate.address" placeholder=""></Input>
                 </FormItem>
                 <FormItem hidden label="id" prop="id">
                     <Input v-model="formValidate.id" placeholder=""></Input>
@@ -57,56 +29,37 @@
                 loading: true,
                 formValidate: {
                     id: null,
-                    xueHao: '',
-                    name: '',
-                    sex: '0',
-                    cardCode: '',
-                    address: '',
-
+                    name: ''
                 },
                 ruleValidate: {
-                    xueHao: [{required: true, message: '学号不为空', trigger: 'blur'}],
-                    name: [{required: true, message: '班级姓名不为空', trigger: 'blur'}],
-                    sex: [{required: true, message: '性别不为空', trigger: 'blur'}],
-                    cardCode: [{required: true, message: '身份证不为空', trigger: 'blur'}],
-                    address: [{required: true, message: '地址不为空', trigger: 'blur'}],
+                    name: [{required: true, message: '考试不为空', trigger: 'blur'}],
                 },
                 columns: [
                     {
-                        title: '学号',
-                        key: 'xueHao',
-                        width: 80,
+                        title: '名称',
+                        key: 'name',
                         fixed: 'left',
                         sortable: true
-                    }, {
-                        title: '名字',
-                        key: 'name',
-                        width: 120,
+                    },
+                    {
+                        title: '总分',
+                        key: 'sumScore',
                         sortable: true
                     },
                     {
-                        title: '性别',
-                        key: 'sex',
-                        width: 80,
-                        render: (h, params) => {
-                            return h('div', [
-                                h('span', {
-                                    props: {
-                                        type: 'person'
-                                    }
-                                }),
-                                h('span', params.row.sex === 0 ? '男' : '女')
-                            ]);
-                        }
+                        title: '平均分',
+                        key: 'avgScore',
+                        sortable: true
                     },
                     {
-                        title: '身份证',
-                        key: 'cardCode',
-                        width: 240,
+                        title: '最高分',
+                        key: 'maxScore',
+                        sortable: true
                     },
                     {
-                        title: '地址',
-                        key: 'address'
+                        title: '最低分',
+                        key: 'minScore',
+                        sortable: true
                     },
                     {
                         title: '操作',
@@ -125,7 +78,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.editStudent(params)
+                                            this.editTest(params)
                                         }
                                     }
                                 }, '编辑'),
@@ -136,10 +89,10 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.$router.push(`/score/student/${params.row.id}`)
+                                            this.$router.push(`/test/${this.$route.params.id}/${params.row.id}`)
                                         }
                                     }
-                                }, '成绩')
+                                }, '详情')
                             ]);
                         }
                     }
@@ -150,47 +103,35 @@
         methods: {
             loadData() {
                 const _this = this;
-                this.$request.get('/student/?clazzId=' + this.$route.params.id)
+                this.$request.get('/test/clazzId/' + this.$route.params.id)
                     .then(value => {
                         _this.data = value.data;
                     }).catch(reason => {
                     _this.$Message.error("服务器异常," + reason);
                 });
             },
-            addStudent() {
+            analysisAll(){
+                this.$router.push(`/analysis/all/test/${this.$route.params.id}`)
+            },
+            addTest() {
                 this.formValidate = {
                     id: null,
-                    xueHao: '',
-                    name: '',
-                    sex: '0',
-                    cardCode: '',
-                    address: '',
-
+                    name: ''
                 };
                 this.showAddClazzModal = true;
-            }, editStudent(value) {
+            }, editTest(value) {
                 const object = value.row;
                 this.formValidate = {
                     id: object.id,
-                    xueHao: object.xueHao + '',
                     name: object.name,
-                    sex: object.sex + '',
-                    cardCode: object.cardCode,
-                    address: object.address,
-
                 };
                 this.showAddClazzModal = true;
-            },
-            downloadStudent() {
-                window.open(`/student/download?clazzId=${this.$route.params.id}`, '_blank')
-            },
-            batchAddStudent() {
             },
             handleSubmit(val) {
                 const _this = this;
                 this.$refs[val].validate((valid) => {
                     if (valid) {
-                        _this.$request.post('/student/?clazzId=' + this.$route.params.id,
+                        _this.$request.post('/test/?clazzId=' + this.$route.params.id,
                             this.formValidate)
                             .then(value => {
                                 console.log(value);

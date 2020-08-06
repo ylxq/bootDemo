@@ -37,8 +37,7 @@ public class TestController {
         return testService.findListByClazzId(clazzId);
     }
 
-
-    @GetMapping("/studentId/{studentId}")
+    @GetMapping("/student/{studentId}")
     public List<Score> findListByStudentId(@PathVariable String studentId) {
         return testService.findListByStudentId(studentId);
     }

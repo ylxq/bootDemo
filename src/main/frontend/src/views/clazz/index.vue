@@ -24,7 +24,7 @@
                         <Cell title="学生详情" :to="'/student/'+item.id">
                             <Badge :count="item.students?item.students.length:0" slot="extra" type="primary"/>
                         </Cell>
-                        <Cell title="考试详情" to="/test">
+                        <Cell title="考试详情" :to="'/test/'+item.id">
                             <Badge :count="item.test?item.test.length:0" slot="extra" type="primary"/>
                         </Cell>
                     </CellGroup>

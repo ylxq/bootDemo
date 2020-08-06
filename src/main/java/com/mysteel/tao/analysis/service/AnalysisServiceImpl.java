@@ -49,7 +49,7 @@ public class AnalysisServiceImpl implements AnalysisService {
                 AnalysisScoreDTO analysisScoreDTO = analysisTest(value);
                 if (analysisScoreDTO != null) {
                     all.setAnalysisScoreDTO(analysisScoreDTO);
-                    all.setTestName(clazzRepository.findById(value).get().getName());
+                    all.setTestName(testRepository.findById(value).get().getName());
                     list.add(all);
                 }
             }));

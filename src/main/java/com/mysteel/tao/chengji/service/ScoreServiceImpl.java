@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author GLNC-taowenchen
@@ -31,13 +32,10 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public Score save(Score score) {
-        testRepository.findById(score.getTestId()).ifPresent(test -> {
-            score.setTestName(test.getName());
-        });
+        testRepository.findById(score.getTestId()).ifPresent(test -> score.setTestName(test.getName()));
+        studentRepository.findById(score.getStudentId()).ifPresent(student -> score.setStudentName(student.getName()));
 
-        studentRepository.findById(score.getStudentId()).ifPresent(student -> {
-            score.setStudentName(student.getName());
-        });
+        score.setId(score.getStudentId()+"_"+score.getTestId());
         return repository.save(score);
     }
 
@@ -64,19 +62,28 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public List findByTestIdAndClazzId(String testId, String clazzId) {
+
         List<ExcelScoreDownloadData> list = new ArrayList<>();
-        clazzRepository.findById(clazzId).ifPresent(clazz -> {
-            clazz.getStudents().forEach(val -> studentRepository.findById(val)
-                    .ifPresent(student -> {
-                        ExcelScoreDownloadData excelScoreDownloadData = new ExcelScoreDownloadData();
-                        excelScoreDownloadData.setTestId(testId);
-                        excelScoreDownloadData.setClazzId(clazzId);
-                        excelScoreDownloadData.setStudentId(val);
-                        excelScoreDownloadData.setStudentName(student.getName());
-                        excelScoreDownloadData.setStudentNo(student.getXueHao());
-                        list.add(excelScoreDownloadData);
-                    }));
-        });
+        clazzRepository.findById(clazzId).ifPresent(clazz ->
+                clazz.getStudents()
+                        .forEach(val -> studentRepository.findById(val)
+                                .ifPresent(student -> {
+                                    ExcelScoreDownloadData excelScoreDownloadData = new ExcelScoreDownloadData();
+                                    excelScoreDownloadData.setTestId(testId);
+                                    excelScoreDownloadData.setClazzId(clazzId);
+                                    excelScoreDownloadData.setStudentId(val);
+                                    excelScoreDownloadData.setStudentName(student.getName());
+                                    excelScoreDownloadData.setStudentNo(student.getXueHao());
+                                    list.add(excelScoreDownloadData);
+                                })));
+
+        Map<String, Score> studentIdMapScoreId = repository.findScoreByTestId(testId).stream().collect(Collectors.toMap(Score::getStudentId, score -> score));
+        list.stream().filter(excelScoreDownloadData -> studentIdMapScoreId.containsKey(excelScoreDownloadData.getStudentId()))
+                .forEach(excelScoreDownloadData -> {
+                    Score temp = studentIdMapScoreId.get(excelScoreDownloadData.getStudentId());
+                    excelScoreDownloadData.setScoreId(temp.getId());
+                    excelScoreDownloadData.setScore(temp.getScore());
+                });
 
         return list;
     }

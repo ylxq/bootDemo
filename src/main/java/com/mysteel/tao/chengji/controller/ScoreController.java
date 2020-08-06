@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,6 +47,11 @@ public class ScoreController {
         EasyExcel.write(response.getOutputStream(), ExcelScoreDownloadData.class)
                 .sheet("模板")
                 .doWrite(scoreService.findByTestIdAndClazzId(testId, clazzId));
+    }
+
+    @GetMapping("/findByTestIdAndClazzId")
+    public List<ExcelScoreDownloadData> findByTestIdAndClazzId(String testId, String clazzId) {
+        return scoreService.findByTestIdAndClazzId(testId, clazzId);
     }
 
     private final ScoreService scoreService;

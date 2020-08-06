@@ -20,7 +20,7 @@ import java.util.*;
 public class StudentServiceImpl implements StudentService {
     @Override
     public Student save(Student student, String clazzId) {
-        student.setSex(Integer.valueOf(student.getCardCode().substring(16, 17)) % 2 == 0 ? 0 : 1);
+        student.setSex(Integer.valueOf(student.getCardCode().substring(16, 17)) % 2 == 0 ? 1 : 0);
         Student newStudent = repository.save(student);
         clazzRepository.findById(clazzId).ifPresent(clazz -> {
             Set<String> students = clazz.getStudents();

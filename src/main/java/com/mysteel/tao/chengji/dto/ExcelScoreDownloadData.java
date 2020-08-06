@@ -6,6 +6,8 @@ import com.alibaba.excel.annotation.ExcelProperty;
  * @author GLNC-taowenchen
  */
 public class ExcelScoreDownloadData {
+    @ExcelProperty("本次成绩标志")
+    private String scoreId;
     @ExcelProperty("考试ID")
     private String testId;
     @ExcelProperty("班级ID")
@@ -19,6 +21,14 @@ public class ExcelScoreDownloadData {
     @ExcelProperty("分数")
     private Double score;
 
+
+    public String getScoreId() {
+        return scoreId;
+    }
+
+    public void setScoreId(String scoreId) {
+        this.scoreId = scoreId;
+    }
 
     public Double getScore() {
         return score;

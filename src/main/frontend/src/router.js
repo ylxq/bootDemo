@@ -17,6 +17,25 @@ const routers = [
                 component: () => import(/* webpackChunkName: "UserManager" */ './views/clazz/index.vue')
             },
             {
+                path: '/test/:id',
+                name: '考试管理',
+                meta: {
+                    id: "1",
+                    role: 1,
+                    group: '系统管理'
+                },
+                component: () => import(/* webpackChunkName: "UserManager" */ './views/test/index.vue')
+            },{
+                path: '/test/:id/:testId',
+                name: '考试管理',
+                meta: {
+                    id: "1",
+                    role: 1,
+                    group: '系统管理'
+                },
+                component: () => import(/* webpackChunkName: "UserManager" */ './views/test/detail.vue')
+            },
+            {
                 path: '/student/:id',
                 name: '学生管理',
                 meta: {
@@ -25,6 +44,16 @@ const routers = [
                     group: '系统管理'
                 },
                 component: () => import(/* webpackChunkName: "UserManager" */ './views/student/index.vue')
+            },
+            {
+                path: '/score/student/:id',
+                name: '个人成绩',
+                meta: {
+                    id: "2",
+                    role: 1,
+                    group: '系统管理'
+                },
+                component: () => import(/* webpackChunkName: "UserManager" */ './views/student/student_score_test.vue')
             },
             {
                 path: '/analysis/:analysisType/:studentId',

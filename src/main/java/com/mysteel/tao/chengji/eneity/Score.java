@@ -65,7 +65,7 @@ public class Score {
 
 
     public Double getScore() {
-        return score;
+        return score==null?0d:score;
     }
 
     public void setScore(Double score) {
